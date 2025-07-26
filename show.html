@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Email Spam Result</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    .light-mode {
+      background: linear-gradient(135deg, #f0f0f0, #d3d3d3);
+      color: #222;
+    }
+
+    .dark-mode {
+      background: linear-gradient(135deg, #232526, #414345);
+      color: white;
+    }
+
+    .result-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      margin: 100px auto;
+    }
+
+    .result-box h2 {
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    .result-box p {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .spam {
+      color: #ff4c4c;
+    }
+
+    .not-spam {
+      color: #4caf50;
+    }
+
+    .btn-back {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #ff6b6b;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-back:hover {
+      background-color: #ff4c4c;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      padding: 8px 14px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    img {
+      max-width: 200px;
+      margin-top: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+  </style>
+</head>
+<body class="dark-mode">
+  <button class="toggle-btn" onclick="toggleTheme()">🌓 Toggle</button>
+
+  <div class="result-box">
+    <h2>📩 Prediction Result</h2>
+    
+    {% if prediction == 1 %}
+      <p class="spam">🚫 This email is <strong>SPAM</strong>.</p>
+      <img src="{{ url_for('static', filename='new-spam.png') }}" alt="Spam Detected">
+      <audio autoplay>
+        <source src="{{ url_for('static', filename='alert.mp3') }}" type="audio/mpeg">
+      </audio>
+    {% elif prediction == 0 %}
+      <p class="not-spam">✅ This email is <strong>NOT SPAM</strong>.</p>
+      <img src="{{ url_for('static', filename='new-notspam.png') }}" alt="Not Spam">
+      <audio autoplay>
+        <source src="{{ url_for('static', filename='success.mp3') }}" type="audio/mpeg">
+      </audio>
+    {% endif %}
+
+    <br>
+    <a class="btn-back" href="/">🔙 Try Another</a>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      body.classList.toggle('light-mode');
+      body.classList.toggle('dark-mode');
+    }
+  </script>
+</body>
+</html>
